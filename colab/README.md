@@ -9,7 +9,7 @@
 
 Alternatively, open Screenwise_Team.ipynb in Colab and save a copy in Drive. It already contains all three parts.
 
-The full code was executed sequentially in Python and reproduced the original results. Colab browser UI was not tested. Word code was read back and verified against the source.
+FINAL allocation: Abhi owns data preparation, model training, metrics and report-generation functions; Nehanth owns the short evaluation and verification section; Sree owns the demo, subgroup analysis, chart and export call. The full code was executed sequentially in Python and reproduced the original results. Colab browser UI was not tested. Word code was read back and verified against the source.
 
 These roles are suggested work assignments, not claims that each person has already written or completed that part. Review and adapt your code, and follow the competition's AI-assistance rules.
 
