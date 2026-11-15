@@ -1,0 +1,31 @@
+SCREENWISE — AI + HEALTH PROJECT
+
+USER AND MOMENT
+Ana Martinez (fictional design persona), a community health nurse in a Phoenix, Arizona teaching-clinic scenario, reviews screening follow-ups at the end of a session. The prototype explores which records a model would flag for review. It is not deployed in a clinic.
+
+This project is a prototype and is not medical advice.
+
+INPUT AND OUTPUT
+Inputs: 2-hour OGTT glucose (mg/dL), diastolic blood pressure (mm Hg), BMI (kg/m²), age (years). Output: logistic regression score and a flag when score >= 0.35. This is a classification experiment using an existing diabetes label, not prediction of future onset or a validated individual risk estimate.
+Real held-out public example: PUBLIC-636; inputs [104.0, 72.0, 31.2, 38.0]; score 0.177405; below threshold, but actual dataset label is positive. This is a false negative.
+
+BASELINE AND MODEL — SAME HELD-OUT 192 RECORDS
+Always-negative majority-class baseline: 65.1% accuracy; 0 true positives; 125 true negatives; 67 false negatives (100% of positives); 0 false positives (0% of negatives).
+Model at illustrative threshold 0.35: 72.4% accuracy; 43 true positives; 96 true negatives; 24 false negatives (35.8% of 67 positives); 29 false positives (23.2% of 125 negatives). Sensitivity 64.2%, specificity 76.8%. Model ROC AUC 0.8086; baseline AUC 0.500. The model adds 7.3 percentage points in accuracy, but still misses over one-third of positive cases.
+
+ORIGINAL QUESTION
+Does the model miss more positives in ages 21–39 or ages 40+? This is an exploratory subgroup analysis, not a causal or fairness conclusion.
+Ages 21–39: 146 records, 20/45 positives missed (44.4%).
+Ages 40+: 46 records, 4/22 positives missed (18.2%).
+
+FAILURE ANALYSIS AND LIMITS
+The example is a real mistake. Four measurements have overlapping distributions between labels; missing measurements and unmeasured clinical factors may contribute. These are plausible explanations, not proven causes for this record. The data are historical and restricted to women aged 21+ of Pima heritage. Do not generalize to other populations. No external, prospective, or calibration validation was performed. Small age subgroups are uncertain. A below-threshold result does not rule out diabetes. A flagged result does not diagnose it.
+
+DATA AND METHODS
+Only the public Pima Indians Diabetes dataset was used; no private records or user-entered health data. 768 rows, public mirror: https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv (original dataset attributed to NIDDK).
+Stratified 75/25 train/test split, random_state=42. Training: 576; test: 192. Four inputs selected before evaluation. Glucose, BP and BMI zeros treated as missing. Median imputation and standardization fitted on training only. LogisticRegression(max_iter=1000, random_state=42); other scikit-learn 1.8.0 defaults. Age remains numeric. Default threshold 0.35 is illustrative and not clinically optimized. The app slider reuses test results, so threshold exploration is not independent validation. The model is not retrained on the test set.
+
+REPRODUCE
+Install numpy and scikit-learn==1.8.0, then run python train.py. The script downloads the public CSV if absent and writes dist/model.json. App scores use exported coefficients and preprocessing, checked against Python predictions. Next work: independently validate a locked threshold and preprocessing on a compatible public external dataset; report errors by subgroup with confidence intervals.
+
+Dataset SHA-256: 6bfe5d0f379d17a0e0819b996407e3c09bf80febd4287f2ed212190dfff154af
