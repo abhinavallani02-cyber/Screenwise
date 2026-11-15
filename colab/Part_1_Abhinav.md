@@ -99,11 +99,11 @@ def save_project_outputs(record_number, threshold, input_row, score, flag, actua
     Method: stratified 576/192 train/test split, seed 42; training-only median imputation and
     standardization; logistic regression. Zero glucose, BP and BMI values are treated as missing.
     The target is the existing diabetes label, not future onset.
-    
+
     Results at selected threshold {threshold:.2f}:
     {comparison.to_string(index=False)}
     Model ROC AUC: {roc_auc_score(y_test, scores):.4f}; baseline AUC: 0.5000.
-    
+
     Real input example: record {record_number}, {input_row.iloc[0].to_dict()}.
     Score: {score:.6f}, predicted label: {int(flag)}, actual label: {actual}.
     Failure example at the original threshold 0.35: public record 636 has glucose 104,
@@ -112,7 +112,7 @@ def save_project_outputs(record_number, threshold, input_row, score, flag, actua
     may contribute; the specific cause is unknown.
     Original question: do missed-positive rates differ for ages 21–39 and 40+?
     {pd.DataFrame(subgroups).to_string(index=False)}
-    
+
     Limits: historical data restricted to women aged 21+ of Pima heritage. No validation
     for other populations, no external or prospective evaluation, and no calibration study.
     Threshold 0.35 and the age split are illustrative. Exploring this test set does not
