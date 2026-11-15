@@ -46,6 +46,32 @@ Training downloads the CSV if absent and writes `dist/model.json`. The split is 
 
 See `dist/report.txt` for the full project write-up, dataset checksum, methods, limitations, and next steps. Browser-calculated scores were verified against all 192 Python test predictions; browser layout testing has not been completed.
 
+## Colab submission and final demonstration
+
+The [three-part Colab notebook](colab/Screenwise_Team.ipynb) contains the full pipeline. Run its code cells in order; no GPU or API key is required. [Open in Colab](https://colab.research.google.com/github/abhinavallani02-cyber/Screenwise/blob/main/colab/Screenwise_Team.ipynb) and save a copy in Drive. The repository copy defaults to 0.35; our uploaded team notebook was also run at 0.15.
+
+The saved team notebook outputs show the following exploratory comparison on the same 192 test records:
+
+| Threshold | Accuracy | Positive cases caught | Missed cases (FN) | False alarms (FP) |
+| --- | --- | --- | --- | --- |
+| 0.35 | 72.40% | 43 / 67 | 24 / 67 (35.82%) | 29 / 125 (23.2%) |
+| 0.15 | 65.62% | 64 / 67 | 3 / 67 (4.48%) | 63 / 125 (50.4%) |
+
+Record 636 is missed at 0.35 but flagged at 0.15. Lowering the threshold catches more positive cases while increasing false alarms; it does not improve every metric. At 0.15, ages 21–39 have 3/45 positives missed (6.7%), and ages 40+ have 0/22 missed. These small exploratory subgroup results do not demonstrate clinical reliability. Neither threshold is clinically recommended.
+
+## What we added to the Health challenge
+
+We designed the prototype around one nurse's end-of-session review task, used four routine measurements, compared a trained classifier with an always-negative baseline, made threshold trade-offs visible, demonstrated an actual missed case, and investigated false-negative rates by age group. We used an existing public dataset, not a newly collected or local dataset. Our specific user scenario, threshold demonstration and subgroup question are our project choices within the supplied challenge.
+
+## Credits and AI assistance
+
+- **Dataset:** [Pima Indians Diabetes public CSV mirror](https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv), hosted in [Jason Brownlee's Datasets repository](https://github.com/jbrownlee/Datasets); the original dataset is attributed to the National Institute of Diabetes and Digestive and Kidney Diseases (NIDDK).
+- **Model:** [scikit-learn LogisticRegression](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html), trained from scratch on the training split. No pretrained model or pretrained weights were used for predictions.
+- **Libraries:** [NumPy](https://numpy.org/), [pandas](https://pandas.pydata.org/), [Matplotlib](https://matplotlib.org/), [IPython](https://ipython.org/) and [scikit-learn](https://scikit-learn.org/).
+- **AI tools:** [OpenAI ChatGPT](https://chatgpt.com/) and [Codex](https://openai.com/codex/) substantially assisted with the project concept, code generation, model evaluation, debugging, notebook/document preparation, website and write-up. The implementation was AI-assisted, not entirely hand-written by the team.
+- **Platform tools:** [Google Colab](https://colab.research.google.com/) for running and sharing the notebook; [GitHub](https://github.com/) for source hosting. OpenAI's Sites tooling was used to prepare the earlier web prototype.
+- **Tutorials:** No tutorial code was directly copied during this build; the dataset mirror above was used as the data source. Any additional resources used separately by team members must also be credited before submission.
+
 ## Intended repository team
 
 - abhinavallani02-cyber — repository owner
